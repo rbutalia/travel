@@ -1,6 +1,8 @@
 
+using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 
 namespace travel
@@ -14,7 +16,10 @@ namespace travel
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+                   .UseKestrel()
+                   .UseConfiguration(new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+                                                               .AddJsonFile("hosting.json", optional: false)
+                                                               .Build())
+                   .Build();
     }
 }
